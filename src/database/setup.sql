@@ -3,6 +3,13 @@ CREATE TABLE IF NOT EXISTS category (
     category_id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_name TEXT UNIQUE NOT NULL
 );
+
+-- Create the users table if it doesn't exist
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
  
 -- Create the games table if it doesn't exist
 CREATE TABLE IF NOT EXISTS games (

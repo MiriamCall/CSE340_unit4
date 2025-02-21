@@ -1,17 +1,12 @@
 <h1>Register</h1>
-
-<form action="/submit" method="POST">
-  <!-- Email input with required attribute -->
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" required />
-
-  <!-- Password input with minlength and required attributes -->
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" minlength="6" required />
-
-  <!-- Phone number input with pattern (10 digits only) and required attributes -->
-  <label for="phone">Phone Number:</label>
-  <input type="tel" id="phone" name="phone" pattern="\d{10}" required />
-
-  <button type="submit">Submit</button>
+<form action="/account/register" method="POST">
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <input
+    type="password"
+    name="confirm_password"
+    placeholder="Confirm Password"
+    required
+  />
+  <button type="submit">Register</button>
 </form>

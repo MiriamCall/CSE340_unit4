@@ -16,7 +16,10 @@ import {
   notFoundHandler,
   globalErrorHandler,
 } from "./src/middleware/error-handler.js";
+import session from "express-session";
+import sqlite from "connect-sqlite3";
 import { setupDatabase } from "./src/database/index.js";
+import flashMessages from "./src/middleware/flash-messages.js";
 
 // Get the current file path and directory name
 const __filename = fileURLToPath(import.meta.url);
@@ -29,8 +32,32 @@ const mode = process.env.MODE || "production";
 // Create an instance of an Express application
 const app = express();
 
+const sqliteSessionStore = sqlite(session);
+
 // Configure the application based on environment settings
 app.use(configNodeEnv);
+
+// Configure session middleware
+app.use(
+  session({
+    store: new sqliteSessionStore({
+      db: "db.sqlite", // SQLite database file
+      dir: "./src/database/", // Directory where the file is stored
+      concurrentDB: true, // Allows multiple processes to use the database
+    }),
+    secret: process.env.SESSION_SECRET || "default-secret",
+    resave: false, // Prevents re-saving sessions that have not changed
+    saveUninitialized: true, // Saves new sessions even if unmodified
+    name: "sessionId",
+    cookie: {
+      secure: false, // Set to `true` in production with HTTPS
+      httpOnly: true, // Prevents client-side access to the cookie
+    },
+  })
+);
+
+// Middleware to handle flash messages
+app.use(flashMessages);
 
 // Configure static paths for the Express application
 configureStaticPaths(app);
@@ -68,25 +95,6 @@ app.use("/account", accountRoute);
 // Apply error handlers
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
-
-// Configure session middleware
-app.use(
-  session({
-    store: new SQLiteSessionStore({
-      db: "db.sqlite", // SQLite database file
-      dir: "./src/database/", // Directory where the file is stored
-      concurrentDB: true, // Allows multiple processes to use the database
-    }),
-    secret: process.env.SESSION_SECRET || "default-secret",
-    resave: false, // Prevents re-saving sessions that have not changed
-    saveUninitialized: true, // Saves new sessions even if unmodified
-    name: "sessionId",
-    cookie: {
-      secure: false, // Set to `true` in production with HTTPS
-      httpOnly: true, // Prevents client-side access to the cookie
-    },
-  })
-);
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode.includes("dev")) {

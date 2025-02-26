@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      connect-sqlite3:
+        specifier: ^0.9.15
+        version: 0.9.15
       ejs:
         specifier: ^3.1.10
         version: 3.1.10
@@ -177,6 +180,10 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  connect-sqlite3@0.9.15:
+    resolution: {integrity: sha512-aJGDtASX8DTUZ++7iTN97vR0vGFpm8jDFew/qHK3veISkCpVpPS0tMdqs7i9fiHLaqaU0Jh3c4sUvNxsizaSTA==}
+    engines: {node: '>=0.4.x'}
 
   console-control-strings@1.1.0:
     resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
@@ -1153,6 +1160,13 @@ snapshots:
     optional: true
 
   concat-map@0.0.1: {}
+
+  connect-sqlite3@0.9.15:
+    dependencies:
+      sqlite3: 5.1.7
+    transitivePeerDependencies:
+      - bluebird
+      - supports-color
 
   console-control-strings@1.1.0:
     optional: true
